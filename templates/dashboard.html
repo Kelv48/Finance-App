@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+
+{% block main_content %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Finance Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h1>Finance Dashboard</h1>
+
+        <!-- Account Summary -->
+        <div class="widget">
+            <h2>Account Summary</h2>
+            <p>Total Balance: $10,000</p>
+            <p>Checking: $5,000</p>
+            <p>Savings: $3,000</p>
+            <p>Investments: $2,000</p>
+        </div>
+
+        <!-- Recent Transactions -->
+        <div class="widget">
+            <h2>Recent Transactions</h2>
+            <ul>
+                <li>01/06/2024 - Grocery Store - $50</li>
+                <li>31/05/2024 - Salary - $2,500</li>
+                <li>30/05/2024 - Utility Bill - $100</li>
+            </ul>
+        </div>
+
+        <!-- Expense Breakdown -->
+        <div class="widget">
+            <h2>Expense Breakdown</h2>
+            <div id="expense-pie-chart"></div>
+            <script>
+                var data = [{
+                    values: [450, 200, 150, 100, 50],
+                    labels: ['Rent', 'Food', 'Utilities', 'Entertainment', 'Others'],
+                    type: 'pie'
+                }];
+                Plotly.newPlot('expense-pie-chart', data);
+            </script>
+        </div>
+
+        <!-- Income vs. Expenses -->
+        <div class="widget">
+            <h2>Income vs. Expenses</h2>
+            <div id="income-expense-bar-chart"></div>
+            <script>
+                var data = [
+                    {
+                        x: ['January', 'February', 'March', 'April', 'May'],
+                        y: [2500, 2600, 2400, 2550, 2700],
+                        name: 'Income',
+                        type: 'bar'
+                    },
+                    {
+                        x: ['January', 'February', 'March', 'April', 'May'],
+                        y: [2000, 2100, 1900, 1950, 2050],
+                        name: 'Expenses',
+                        type: 'bar'
+                    }
+                ];
+                var layout = { barmode: 'group' };
+                Plotly.newPlot('income-expense-bar-chart', data, layout);
+            </script>
+        </div>
+
+        <!-- Savings Goals -->
+        <div class="widget">
+            <h2>Savings Goals</h2>
+            <p>Emergency Fund: $1,000 / $5,000</p>
+            <p>Vacation: $500 / $2,000</p>
+        </div>
+
+    </div>
+</body>
+{% endblock %}
