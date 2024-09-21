@@ -9,18 +9,20 @@
 
 <body>
     <header>
+        {% if g.user %}
         <nav class="topnav">
             <a href="{{ url_for('home')}}">Home</a>
             {% if g.user is none %}
             <a href="{{ url_for('register')}}">Register</a>
             <a href="{{ url_for('login')}}">Login</a>
             {% endif %}
-            {% if g.user %}
+            
             <a href="{{ url_for('logout')}}">Logout</a>
             <a href="#">Profile</a>
-            {% endif %}
+            
             <a href="#">Settings</a>
         </nav>
+        {% endif %}
     </header>
     {% block main_content %}{% endblock %}
 </body>

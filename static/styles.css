@@ -32,46 +32,97 @@
     color: white;
 }
 
+/* General Styles */
 body {
     font-family: Arial, sans-serif;
-    background-color: #f5f5f5;
+    background-color: #f4f4f9;
+    color: #333;
     margin: 0;
     padding: 0;
 }
 
-.container {
-    width: 80%;
-    margin: auto;
-    overflow: hidden;
-}
-
 h1 {
+    color: #333;
     text-align: center;
     margin-top: 20px;
 }
 
-.widget {
-    background: #fff;
+.home {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.form p {
+    text-align: center;
+    color: #555;
+}
+
+/* Form Container (Scoped to .form class) */
+.form form {
+    max-width: 400px;
+    margin: 20px auto;
     padding: 20px;
-    margin: 20px 0;
+    background-color: white;
     border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border: 1px solid #ddd;
 }
 
-.widget h2 {
-    margin-top: 0;
+/* Form Input Fields (Scoped to .form class) */
+.form input[type="text"],
+.form input[type="email"],
+.form input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0 20px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
 }
 
-.widget ul {
-    list-style: none;
-    padding: 0;
+/* Labels (Scoped to .form class) */
+.form label {
+    font-size: 16px;
+    font-weight: bold;
+    color: #555;
 }
 
-.widget ul li {
-    padding: 8px 0;
-    border-bottom: 1px solid #ddd;
+/* Error Messages (Scoped to .form class) */
+.form .error {
+    color: red;
+    font-size: 14px;
+    margin: 5px 0;
 }
 
-.widget ul li:last-child {
-    border-bottom: none;
+/* Submit Button (Scoped to .form class) */
+.form button[type="submit"] {
+    width: 100%;
+    padding: 12px;
+    background-color: #5cb85c;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.form button[type="submit"]:hover {
+    background-color: #4cae4c;
+}
+
+/* Link Styling */
+.form a {
+    color: #5cb85c;
+    text-decoration: none;
+}
+
+.form a:hover {
+    text-decoration: underline;
+}
+
+/* Responsive Design for Forms */
+@media (max-width: 600px) {
+    .form form {
+        width: 90%;
+    }
 }
