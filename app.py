@@ -1,9 +1,10 @@
 #App.py 
-from flask import Flask, render_template, redirect, url_for, g, request
+from flask import Flask, render_template, redirect, url_for, g, request, session
 from flask_wtf.csrf import CSRFProtect
 from flask_sqlalchemy import SQLAlchemy
-from werkzeug.security import generate_password_hash
-from forms import RegistrationForm
+from werkzeug.security import generate_password_hash, check_password_hash
+from forms import RegistrationForm, LoginForm
+from functools import wraps
 
 app = Flask(__name__)
 
@@ -30,6 +31,24 @@ class User(db.Model):
     def __repr__(self):
         return '<User %r>' % self.username #Return a string representation of the object
 
+# This runs before every request
+@app.before_request
+def load_logged_in_user():
+    user_id = session.get('user_id')
+    if user_id is None:
+        g.user = None  # No user logged in
+    else:
+        # Load the user from the database and set it to g.user
+        g.user = User.query.get(user_id)
+
+def login_required(view):
+    @wraps(view)
+    def wrapped_view(*args, **kwargs):
+        if g.user is None:
+            return redirect(url_for("login_status", next=request.url))
+        return view(*args, **kwargs)
+    return wrapped_view
+
 @app.route('/')
 def home():
     return render_template('index.html')
@@ -54,6 +73,34 @@ def register():
             db.session.commit()
             return redirect(url_for('login'))
     return render_template('register.html', register_form=register_form)    
+
+@app.route('/Login', methods=['GET', 'POST'])
+def login():
+    login_form = LoginForm()
+    if login_form.validate_on_submit():
+        user_id = login_form.user_id.data
+        password = login_form.password.data
+
+        # Retrieve the user from the database by username
+        user = User.query.filter_by(username=user_id).first()
+
+        if user is None:
+            login_form.user_id.errors.append("User ID not found, please try again!")
+        elif not check_password_hash(user.password, password):  # Compare the hashed password
+            login_form.password.errors.append("Incorrect password, please try again!")
+        else:
+            session.clear()
+            session['user_id'] = user.id
+            # Login successful, redirect to the dashboard
+            return redirect(url_for('home'))
+    
+    # Render the login page with the form
+    return render_template('login.html', login_form=login_form)
+
+@app.route('/logout')
+def logout():
+    session.clear()
+    return redirect(url_for('home'))
 
 if __name__ == '__main__':
     with app.app_context():

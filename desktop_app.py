@@ -16,7 +16,7 @@ class FlaskApp(QMainWindow):
         super().__init__()
         # Set the title and size of the window
         self.setWindowTitle("Flask Desktop App")
-        self.setGeometry(100, 100, 800, 600)
+        self.setGeometry(100, 100, 1920, 1080)
 
         #Creates a QWebEngine object that can render web content and loads the Flask app
         self.browser = QWebEngineView()
